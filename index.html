@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Maintenance</title>
+    <style>
+        :root {
+            --bg-dark: #0f111a;
+            --panel-bg: #1a1d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #8b9bb4;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Animated background icons */
+        .bg-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            opacity: 0.08;
+            filter: grayscale(100%) brightness(2);
+        }
+
+        .floating-icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Different animations for each icon */
+        .icon-1 {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 5%;
+            animation: float1 20s ease-in-out infinite;
+        }
+
+        .icon-2 {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 15%;
+            animation: float2 25s ease-in-out infinite;
+        }
+
+        .icon-3 {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            right: 10%;
+            animation: float3 18s ease-in-out infinite;
+        }
+
+        .icon-4 {
+            width: 70px;
+            height: 70px;
+            top: 70%;
+            right: 20%;
+            animation: float4 22s ease-in-out infinite;
+        }
+
+        .icon-5 {
+            width: 50px;
+            height: 50px;
+            top: 40%;
+            left: 80%;
+            animation: float1 30s ease-in-out infinite reverse;
+        }
+
+        .icon-6 {
+            width: 90px;
+            height: 90px;
+            top: 80%;
+            left: 50%;
+            animation: float2 28s ease-in-out infinite reverse;
+        }
+
+        .icon-7 {
+            width: 55px;
+            height: 55px;
+            top: 5%;
+            left: 60%;
+            animation: float3 24s ease-in-out infinite;
+        }
+
+        .icon-8 {
+            width: 75px;
+            height: 75px;
+            top: 45%;
+            left: 25%;
+            animation: float4 26s ease-in-out infinite reverse;
+        }
+
+        @keyframes float1 {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(50px, 30px) rotate(5deg);
+            }
+            50% {
+                transform: translate(20px, 60px) rotate(-3deg);
+            }
+            75% {
+                transform: translate(-30px, 20px) rotate(8deg);
+            }
+        }
+
+        @keyframes float2 {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            33% {
+                transform: translate(-40px, -50px) rotate(-10deg);
+            }
+            66% {
+                transform: translate(60px, -20px) rotate(5deg);
+            }
+        }
+
+        @keyframes float3 {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            20% {
+                transform: translate(-30px, 40px) rotate(15deg);
+            }
+            40% {
+                transform: translate(20px, 80px) rotate(-5deg);
+            }
+            60% {
+                transform: translate(50px, 30px) rotate(10deg);
+            }
+            80% {
+                transform: translate(-20px, -10px) rotate(-8deg);
+            }
+        }
+
+        @keyframes float4 {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(70px, -40px) rotate(-15deg);
+            }
+        }
+
+        /* Main content card */
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 16px;
+            padding: 48px 64px;
+            text-align: center;
+            border: 1px solid #2d3748;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 10;
+            max-width: 500px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 32px;
+        }
+
+        .brand-name {
+            background-color: var(--bg-dark);
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        .brand-status {
+            background-color: rgba(15, 17, 26, 0.85);
+            color: var(--warning);
+            font-size: 28px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-left: 2px solid #2d3748;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--warning);
+            padding: 8px 20px;
+            border-radius: 24px;
+            font-size: 14px;
+            color: var(--warning);
+            margin-bottom: 24px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--warning);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.3);
+            }
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .icons-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .icon-item {
+            width: 48px;
+            height: 48px;
+            padding: 10px;
+            background: #2d3748;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: iconBounce 2s ease-in-out infinite;
+        }
+
+        .icon-item:nth-child(1) { animation-delay: 0s; }
+        .icon-item:nth-child(2) { animation-delay: 0.2s; }
+        .icon-item:nth-child(3) { animation-delay: 0.4s; }
+        .icon-item:nth-child(4) { animation-delay: 0.6s; }
+
+        .icon-item img {
+            width: 28px;
+            height: 28px;
+            filter: brightness(0) saturate(100%) invert(67%) sepia(12%) saturate(574%) hue-rotate(182deg) brightness(91%) contrast(87%);
+        }
+
+        @keyframes iconBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #2d3748;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 60%;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            border-radius: 2px;
+            animation: progressMove 2s ease-in-out infinite;
+        }
+
+        @keyframes progressMove {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(200%);
+            }
+        }
+
+        .eta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .eta span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background icons -->
+    <div class="bg-icons">
+        <div class="floating-icon icon-1">
+            <img src="drone.svg" alt="">
+        </div>
+        <div class="floating-icon icon-2">
+            <img src="missile.svg" alt="">
+        </div>
+        <div class="floating-icon icon-3">
+            <img src="ballistic.svg" alt="">
+        </div>
+        <div class="floating-icon icon-4">
+            <img src="flight_alert.svg" alt="">
+        </div>
+        <div class="floating-icon icon-5">
+            <img src="drone.svg" alt="">
+        </div>
+        <div class="floating-icon icon-6">
+            <img src="missile.svg" alt="">
+        </div>
+        <div class="floating-icon icon-7">
+            <img src="ballistic.svg" alt="">
+        </div>
+        <div class="floating-icon icon-8">
+            <img src="flight_alert.svg" alt="">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <div class="brand">
+                <div class="brand-name">SYSTEM</div>
+                <div class="brand-status">OFFLINE</div>
+            </div>
+
+            <div class="status-badge">
+                <div class="pulse-dot"></div>
+                MAINTENANCE IN PROGRESS
+            </div>
+
+            <h1>We'll be back soon</h1>
+            <p>Our systems are currently undergoing scheduled maintenance to improve performance and security.</p>
+
+            <div class="icons-row">
+                <div class="icon-item">
+                    <img src="drone.svg" alt="Drone">
+                </div>
+                <div class="icon-item">
+                    <img src="missile.svg" alt="Missile">
+                </div>
+                <div class="icon-item">
+                    <img src="ballistic.svg" alt="Ballistic">
+                </div>
+                <div class="icon-item">
+                    <img src="flight_alert.svg" alt="Alert">
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <div class="eta">Estimated completion: <span>~30 minutes</span></div>
+        </div>
+    </div>
+</body>
+</html>
